@@ -4,7 +4,43 @@ import pandas as pd
 
 st.set_page_config(
     page_title="Customer Churn Prediction",
-)
+    page_icon="📉",)
+with st.sidebar:
+
+    st.title("👨‍💻 Developer")
+
+    st.markdown("### Ashish Sheoran")
+
+    st.caption(
+        "Aspiring Data Scientist | Machine Learning Enthusiast"
+    )
+
+    st.markdown("---")
+
+    st.subheader("🔗 Connect")
+
+    st.markdown(
+        "[GitHub](https://github.com/Ashisheoran)"
+    )
+
+    st.markdown(
+        "[LinkedIn](https://linkedin.com/in/Ashisheoran)"
+    )
+
+    st.markdown("---")
+
+    st.subheader("🎯 Model")
+    st.caption(
+        "XGBoost Classifier"
+    )
+
+    st.metric(
+        label="Accuracy",
+        value="98.40%"
+    )
+
+    st.markdown("---")
+
 st.title("Customer Churn Prediction & Retention Analytics System")
 
 st.write("Fill the values below to predict whether a customer will churn or not.")
@@ -35,90 +71,83 @@ with st.container(border=True):
     cashbackamount = c3.number_input("Cashback Amount", min_value=0, max_value=1000, value=0, step=1, key="cashback_amount")
 
 
-
 if st.button("Predict"):
-    st.markdown("---")
-    model = joblib.load("models/churn_prediction_model.pkl")
+    with st.container(border=True):
+        model = joblib.load("models/churn_prediction_model.pkl")
 
-    gender_female = 1 if gender == "Female" else 0
-    gender_male = 1 if gender == "Male" else 0
+        gender_female = 1 if gender == "Female" else 0
+        gender_male = 1 if gender == "Male" else 0
 
-    marital_divorced = 1 if maritialstatus == "Divorced" else 0
-    marital_married = 1 if maritialstatus == "Married" else 0
-    marital_single = 1 if maritialstatus == "Single" else 0
+        marital_divorced = 1 if maritialstatus == "Divorced" else 0
+        marital_married = 1 if maritialstatus == "Married" else 0
+        marital_single = 1 if maritialstatus == "Single" else 0
 
-    input_data = pd.DataFrame({
-        "Tenure": [tenure],
-        "MaritalStatus_Divorced": [marital_divorced],
-        "MaritalStatus_Married": [marital_married],
-        "MaritalStatus_Single": [marital_single],
-        "Gender_Female": [gender_female],
-        "Gender_Male": [gender_male],
-        "HourSpendOnApp": [hourspendonapp],
-        "SatisfactionScore": [stisfactionscore],
-        "OrderAmountHikeFromlastYear": [orderamounthikefromlastyear],
-        "OrderCount": [ordercount],
-        "NumberOfDeviceRegistered": [numberofdeviceregistered],
-        "Complain": [complain],
-        "DaySinceLastOrder": [daysincelastorder],
-        "CityTier": [citytier],
-        "WarehouseToHome": [warehousetohome],
-        "NumberOfAddress": [numberofaddress],
-        "CouponUsed": [couponused],
-        "CashbackAmount": [cashbackamount]
-    })
+        input_data = pd.DataFrame({
+            "Tenure": [tenure],
+            "MaritalStatus_Divorced": [marital_divorced],
+            "MaritalStatus_Married": [marital_married],
+            "MaritalStatus_Single": [marital_single],
+            "Gender_Female": [gender_female],
+            "Gender_Male": [gender_male],
+            "HourSpendOnApp": [hourspendonapp],
+            "SatisfactionScore": [stisfactionscore],
+            "OrderAmountHikeFromlastYear": [orderamounthikefromlastyear],
+            "OrderCount": [ordercount],
+            "NumberOfDeviceRegistered": [numberofdeviceregistered],
+            "Complain": [complain],
+            "DaySinceLastOrder": [daysincelastorder],
+            "CityTier": [citytier],
+            "WarehouseToHome": [warehousetohome],
+            "NumberOfAddress": [numberofaddress],
+            "CouponUsed": [couponused],
+            "CashbackAmount": [cashbackamount]
+        })
 
-    prediction = model.predict(input_data)[0]
+        prediction = model.predict(input_data)[0]
 
-    try:
-        probability = model.predict_proba(input_data)[0][1]
-    except:
-        probability = None
+        try:
+            probability = model.predict_proba(input_data)[0][1]
+        except:
+            probability = None
 
-    st.subheader("Prediction Result")
+        st.subheader("Prediction Result")
 
-    if prediction == 1:
-        st.error("Customer is likely to churn")
-    else:
-        st.success("Customer is likely to stay")
-
-    if probability is not None:
-        st.metric(
-            "Churn Probability",
-            f"{probability*100:.2f}%"
-        )
-
-        if probability < 0.30:
-            st.info("Risk Level: Low")
-            st.info("""
-            Recommended Actions:
-            - Continue regular engagement
-            - Send personalized product recommendations
-            - Offer loyalty rewards
-            - Encourage referrals
-            """)
-        elif probability < 0.70:
-            st.warning("Risk Level: Medium")
-            st.info("""
-            Recommended Actions:
-            - Send targeted discount coupons
-            - Offer loyalty program benefits
-            - Collect customer feedback
-            - Provide personalized offers
-            """)
+        if prediction == 1:
+            st.error("Customer is likely to churn")
         else:
-            st.error("Risk Level: High")
-            st.info("""
-            Recommended Actions:
-            - Immediate retention campaign
-            - Special discount or cashback offer
-            - Priority customer support outreach
-            - Dedicated account manager follow-up
-            - Personalized win-back incentives
-            """)
-        
+            st.success("Customer is likely to stay")
 
-st.markdown("---")
-st.caption(
-    "Built using Python, XGBoost, Streamlit, Scikit-Learn and Joblib"
-)
+        if probability is not None:
+            st.metric(
+                "Churn Probability",
+                f"{probability*100:.2f}%"
+            )
+
+            if probability < 0.30:
+                st.info("Risk Level: Low")
+                st.info("""
+                Recommended Actions:
+                - Continue regular engagement
+                - Send personalized product recommendations
+                - Offer loyalty rewards
+                - Encourage referrals
+                """)
+            elif probability < 0.70:
+                st.warning("Risk Level: Medium")
+                st.info("""
+                Recommended Actions:
+                - Send targeted discount coupons
+                - Offer loyalty program benefits
+                - Collect customer feedback
+                - Provide personalized offers
+                """)
+            else:
+                st.error("Risk Level: High")
+                st.info("""
+                Recommended Actions:
+                - Immediate retention campaign
+                - Special discount or cashback offer
+                - Priority customer support outreach
+                - Dedicated account manager follow-up
+                - Personalized win-back incentives
+                """)
