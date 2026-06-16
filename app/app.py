@@ -39,8 +39,6 @@ with st.sidebar:
         value="98.40%"
     )
 
-    st.markdown("---")
-
 st.title("Customer Churn Prediction & Retention Analytics System")
 
 st.write("Fill the values below to predict whether a customer will churn or not.")
