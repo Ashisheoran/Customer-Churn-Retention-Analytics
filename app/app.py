@@ -4,7 +4,6 @@ import pandas as pd
 
 st.set_page_config(
     page_title="Customer Churn Prediction",
-    page_icon="📊",
 )
 st.title("Customer Churn Prediction & Retention Analytics System")
 
